@@ -152,3 +152,4 @@ cypress.env.json
 # Cypress artifacts
 cypress/screenshots/
 cypress/videos/
+screenshots/

@@ -163,6 +163,12 @@ npm run allure:report   # gera o relatório a partir dos resultados
 npm run allure:open     # abre o relatório no navegador
 ```
 
+### Uso de Inteligência Artificial
+- Agente no Claude para priorização de testes baseado em risco e criticidade.
+- Pouco uso de copilot para o desenvolvimento dos testes. Os testes foram majoritariamente escritos manualmente, garantindo maior controle sobre a lógica e a cobertura dos cenários.
+- Revisão de duplicidade, refatoração, consistência e cobertura dos testes foi realizada pelo Copilot.
+- README atualizada constantemente com o apoio do Copilot.
+
 ## CI/CD Pipeline
 
 O projeto usa GitHub Actions para instalar dependências, subir o ServeRest, rodar a suíte, gerar o relatório Allure e publicá-lo no GitHub Pages.
