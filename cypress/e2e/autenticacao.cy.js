@@ -6,7 +6,7 @@ describe('Autenticação de Usuário no Serverest', () => {
   before(() => {
     cy.env(['USUARIO_EMAIL', 'USUARIO_SENHA']).then(({ USUARIO_EMAIL, USUARIO_SENHA }) => {
       usuario = { email: USUARIO_EMAIL, password: USUARIO_SENHA }
-      cy.cadastrarUsuario('Usuario Teste', USUARIO_EMAIL, USUARIO_SENHA, 'false')
+      cy.cadastrarUsuario('Usuario Teste', USUARIO_EMAIL, USUARIO_SENHA, 'true')
     })
   })
 
