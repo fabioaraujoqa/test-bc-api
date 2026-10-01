@@ -145,3 +145,6 @@ vite.config.ts.timestamp-*
 # Allure reports
 allure-results/
 allure-report/
+
+# Cypress local env (credentials)
+cypress.env.json

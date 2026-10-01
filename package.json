@@ -34,7 +34,6 @@
     "allure-commandline": "^2.46.1",
     "concurrently": "^10.0.5",
     "cypress-multi-reporters": "^2.0.5",
-    "dotenv": "^18.0.5",
     "mocha-allure-reporter": "^1.4.0",
     "serverest": "^3.2.2",
     "wait-on": "^9.5.1"

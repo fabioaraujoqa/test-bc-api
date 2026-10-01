@@ -1,12 +1,5 @@
-require('dotenv').config({ quiet: true });
 const { defineConfig } = require("cypress");
 const { plugin: registerGrep } = require("@cypress/grep/plugin");
-
-const ambientes = {
-  local: process.env.URL_LOCAL,
-  dev: process.env.URL_DEV,
-};
-const ambiente = process.env.AMBIENTE || 'local';
 
 module.exports = defineConfig({
   reporter: 'cypress-multi-reporters',
@@ -17,16 +10,15 @@ module.exports = defineConfig({
     grepFilterSpecs: true,
     grepOmitFiltered: true,
   },
-  env: {
-    USUARIO_NOME: process.env.USUARIO_NOME,
-    USUARIO_EMAIL: process.env.USUARIO_EMAIL,
-    USUARIO_SENHA: process.env.USUARIO_SENHA,
-  },
   e2e: {
     setupNodeEvents(on, config) {
       registerGrep(config);
+      // CYPRESS_BASE_URL (CI) tem prioridade sobre AMBIENTE/URLS do cypress.env.json
+      if (!process.env.CYPRESS_BASE_URL) {
+        config.baseUrl = config.env.URLS?.[config.env.AMBIENTE] || config.baseUrl;
+      }
       return config;
     },
-    baseUrl: ambientes[ambiente] || 'http://localhost:3000',
+    baseUrl: 'http://localhost:3000',
   },
 });

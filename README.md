@@ -6,7 +6,13 @@ API testing project using Cypress and Serverest with Allure Report integration.
 
 ```bash
 npm install
+cp cypress.env.example.json cypress.env.json
 ```
+
+Fill in `cypress.env.json` (loaded natively by Cypress, ignored by git):
+
+- `AMBIENTE`: which entry of `URLS` to use as `baseUrl` (`local` or `dev`). Defaults to `http://localhost:3000`.
+- `USUARIO_EMAIL` / `USUARIO_SENHA`: credentials of the authentication user.
 
 ## Local Development
 
@@ -48,22 +54,42 @@ npm run allure:open
 This project uses GitHub Actions to:
 - Install dependencies
 - Start the Serverest server
-- Run all Cypress tests
+- Run the Cypress test suite (see below)
 - Generate Allure Report
-- Publish to GitHub Pages
+- Publish to GitHub Pages (runs on `main` only)
 
 The workflow runs on:
 - Every push to `main` or `develop` branches
 - Every pull request to `main` or `develop` branches
+- Manually, via **Actions → Run workflow**
+
+Which suite runs:
+
+| Trigger | Suite |
+|---------|-------|
+| Pull request | `@smoke` |
+| Push to `main` / `develop` | all tests |
+| Manual run | chosen in the dropdowns: **Ambiente** (`local`, `dev`) and **Suíte** (`todos`, `smoke`, `alta`, `seguranca`) |
+
+Environments (**Settings → Environments**) hold the target URL and credentials:
+
+| Environment | Variable `BASE_URL` | Secrets |
+|-------------|---------------------|---------|
+| `local` | optional (defaults to `http://localhost:3000`) | `USUARIO_EMAIL`, `USUARIO_SENHA` |
+| `dev` | `https://serverest.dev` | `USUARIO_EMAIL`, `USUARIO_SENHA` |
+
+Pushes and pull requests run against `local` (ServeRest started inside the runner). `dev` runs only on manual runs, choosing it in the **Ambiente** dropdown; the local server is not started. Values reach Cypress as `CYPRESS_BASE_URL`, `CYPRESS_USUARIO_EMAIL` and `CYPRESS_USUARIO_SENHA`; `CYPRESS_BASE_URL` takes precedence over `AMBIENTE`/`URLS` from `cypress.env.json`.
 
 ### View Reports
 
-Reports are published to GitHub Pages at:
+The Allure report of the latest run on `main` is published with the official GitHub Pages actions (`upload-pages-artifact` + `deploy-pages`), no `gh-pages` branch needed:
 ```
-https://{username}.github.io/{repo}/allure-report-{run-number}
+https://{username}.github.io/{repo}/
 ```
 
-Pull requests will receive a comment with the direct link to the report.
+One-time setup: **Settings → Pages → Source: GitHub Actions**.
+
+Pull requests receive a comment with the suite/environment and a link to the workflow run.
 
 ## Project Structure
 
