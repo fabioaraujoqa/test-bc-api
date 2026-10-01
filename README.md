@@ -37,6 +37,16 @@ This command waits for the server on `http://localhost:3000` before running test
 
 ## Reporting
 
+Tests run in **Chrome** (`--browser chrome`); Electron is deprecated as a test browser. Results are written to `allure-results` by [`allure-cypress`](https://www.npmjs.com/package/allure-cypress).
+
+Evidence in the report, for passed and failed tests:
+- one step per API call (`POST /login → 200`) with the **Request** and **Response** as JSON attachments (`cypress/support/evidencias.js`)
+- a screenshot on failure
+- tags from `@cypress/grep` (`smoke`, `alta`, `seguranca`…) as Allure tags, for filtering
+- environment info (Ambiente, Base URL)
+
+`password` and `authorization` fields are masked as `***` in every attachment, because the report is published on GitHub Pages.
+
 Generate Allure Report from test results:
 
 ```bash
@@ -98,12 +108,12 @@ Pull requests receive a comment with the suite/environment and a link to the wor
 ├── cypress/                    # Cypress test files
 │   ├── e2e/                   # End-to-end tests
 │   ├── fixtures/              # Test data
-│   └── support/               # Helper functions
+│   └── support/               # Custom commands, Allure evidence (evidencias.js)
 ├── .github/
 │   └── workflows/
 │       └── test.yml           # GitHub Actions workflow
 ├── cypress.config.js          # Cypress configuration
-├── cypress-reporters.json     # Multi-reporter configuration
+├── cypress.env.example.json   # Template for local env (cypress.env.json)
 ├── package.json
 └── README.md
 ```
@@ -113,7 +123,7 @@ Pull requests receive a comment with the suite/environment and a link to the wor
 | Command | Description |
 |---------|-------------|
 | `npm run server` | Start Serverest API server |
-| `npm run test` | Run Cypress tests with Allure reporter |
+| `npm run test` | Run Cypress tests in Chrome with Allure results |
 | `npm run test:ci` | Wait for server + run tests (CI mode) |
 | `npm run test:smoke` | Run only `@smoke` tests |
 | `npm run test:alta` | Run only high priority (`@alta`) tests |

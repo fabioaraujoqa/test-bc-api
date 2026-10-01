@@ -148,3 +148,7 @@ allure-report/
 
 # Cypress local env (credentials)
 cypress.env.json
+
+# Cypress artifacts
+cypress/screenshots/
+cypress/videos/

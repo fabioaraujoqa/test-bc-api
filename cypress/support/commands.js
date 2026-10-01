@@ -1,5 +1,5 @@
 Cypress.Commands.add('cadastrarUsuario', (nome, email, password, administrador) => {
-    cy.request({
+    cy.api({
         method: 'POST',
         url: '/usuarios',
         body: {

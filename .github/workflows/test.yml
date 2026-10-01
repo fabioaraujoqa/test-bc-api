@@ -70,7 +70,7 @@ jobs:
           TAGS: ${{ steps.suite.outputs.tags }}
         run: |
           if [ -n "$TAGS" ]; then
-            npx cypress run --expose grepTags="$TAGS"
+            npm test -- --expose grepTags="$TAGS"
           else
             npm test
           fi
