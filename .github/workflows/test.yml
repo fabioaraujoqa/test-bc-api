@@ -1,0 +1,56 @@
+name: Teste de API com Allure Report
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Iniciar servidor
+        run: npm run server &
+        
+      - name: Aguardar servidor pronto
+        run: npm run test:ci
+
+      - name: Gerar relatório Allure
+        if: always()
+        run: npm run allure:report
+
+      - name: Enviar relatório Allure para GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          destination_dir: allure-report-${{ github.run_number }}
+
+      - name: Comentar PR com link do relatório
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runNumber = context.runId;
+            const reportUrl = `${{ github.server_url }}/${{ github.repository }}/actions/runs/${runNumber}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Abrir Relatório Allure: [Ver Relatório](${reportUrl})`
+            });

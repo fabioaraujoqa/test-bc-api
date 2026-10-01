@@ -1,0 +1,14 @@
+{
+  "usuarioComum": {
+    "nome": "Fábio Araújo",
+    "email": "fabio@qa.com.br",
+    "password": "teste123",
+    "administrador": "false"
+  },
+  "usuarioAdmin": {
+    "nome": "Admin Teste",
+    "email": "admin@qa.com.br",
+    "password": "admin123",
+    "administrador": "true"
+  }
+}

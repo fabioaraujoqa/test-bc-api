@@ -1,0 +1,42 @@
+{
+  "name": "test-bc-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npx serverest",
+    "test": "cypress run",
+    "test:smoke": "cypress run --expose grepTags=@smoke",
+    "test:alta": "cypress run --expose grepTags=@alta",
+    "test:media": "cypress run --expose grepTags=@media",
+    "test:seguranca": "cypress run --expose grepTags=@seguranca",
+    "test:ci": "wait-on http://localhost:3000 && npm run test",
+    "allure:report": "allure generate ./allure-results --clean -o ./allure-report",
+    "allure:open": "allure open ./allure-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabioaraujoqa/test-bc-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabioaraujoqa/test-bc-api/issues"
+  },
+  "homepage": "https://github.com/fabioaraujoqa/test-bc-api#readme",
+  "dependencies": {
+    "cypress": "^16.1.1",
+    "cypress-plugin-api": "^2.12.3"
+  },
+  "devDependencies": {
+    "@cypress/grep": "^7.0.0",
+    "allure-commandline": "^2.46.1",
+    "concurrently": "^10.0.5",
+    "cypress-multi-reporters": "^2.0.5",
+    "dotenv": "^18.0.5",
+    "mocha-allure-reporter": "^1.4.0",
+    "serverest": "^3.2.2",
+    "wait-on": "^9.5.1"
+  }
+}

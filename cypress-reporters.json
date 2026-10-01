@@ -1,0 +1,13 @@
+{
+  "reporterEnabled": "spec, mocha-allure-reporter",
+  "spec": {
+    "enable": true,
+    "options": {
+      "toConsole": true
+    }
+  },
+  "mochaAllureReporter": {
+    "rootSuiteTitle": "Test BC API",
+    "resultsDir": "allure-results"
+  }
+}
